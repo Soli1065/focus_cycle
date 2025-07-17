@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_cycle/ui/screens/base.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'models/topic.dart';
 import 'themes/theme.dart';
 
 // Providers
 final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.light);
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(TopicAdapter());
+  await Hive.openBox<Topic>('topicsBox');
+
+
   runApp(
     const ProviderScope(
       child: FocusCycleApp(),

@@ -34,9 +34,9 @@ class TopicsScreen extends ConsumerWidget {
                 if (value == 'edit') {
                   _showAddEditDialog(context, ref, topic: topic);
                 } else if (value == 'delete') {
-                  ref.deleteTopic(topic.id);
+                  ref.read(topicsProvider.notifier).deleteTopic(topic.id);
                 } else if (value == 'review') {
-                  ref.markTopicReviewed(topic.id);
+                  ref.read(topicsProvider.notifier).markTopicReviewed(topic.id);
                 }
               },
               itemBuilder: (context) => [
@@ -77,10 +77,10 @@ class TopicsScreen extends ConsumerWidget {
               final name = controller.text.trim();
               if (name.isEmpty) return;
               if (topic == null) {
-                ref.addTopic(Topic(name: name));
+                ref.read(topicsProvider.notifier).addTopic(Topic(name: name));
               } else {
                 topic.name = name;
-                ref.editTopic(topic);
+                ref.read(topicsProvider.notifier).editTopic(topic);
               }
               Navigator.pop(context);
             },
