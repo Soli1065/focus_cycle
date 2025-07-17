@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:focus_cycle/ui/screens/base.dart';
 import 'themes/theme.dart';
 
 // Providers
@@ -26,93 +27,10 @@ class FocusCycleApp extends ConsumerWidget {
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
       themeMode: themeMode,
-      home: const HomeScaffold(),
+      home: const Base(),
     );
   }
 }
 
-class HomeScaffold extends StatefulWidget {
-  const HomeScaffold({super.key});
 
-  @override
-  State<HomeScaffold> createState() => _HomeScaffoldState();
-}
 
-class _HomeScaffoldState extends State<HomeScaffold> {
-  int _currentIndex = 1; // Default to Timer tab
-
-  final _screens = const [
-    DashboardScreen(),
-    TimerScreen(),
-    TopicsScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timer),
-            label: 'Focus',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Topics',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Dummy Screens
-
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Dashboard Screen',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
-
-class TimerScreen extends StatelessWidget {
-  const TimerScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Focus Timer Screen',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
-
-class TopicsScreen extends StatelessWidget {
-  const TopicsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Topics Screen',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
