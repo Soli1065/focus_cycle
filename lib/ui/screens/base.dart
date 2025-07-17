@@ -1,8 +1,5 @@
 
-
-
 import 'package:flutter/material.dart';
-
 import 'dashboard_screen.dart';
 import 'timer_screen.dart';
 import 'topics_screen.dart';
@@ -17,11 +14,23 @@ class Base extends StatefulWidget {
 class _BaseState extends State<Base> {
   int _currentIndex = 1; // Default to Timer tab
 
-  final _screens = const [
-    DashboardScreen(),
-    TimerScreen(),
-    TopicsScreen(),
-  ];
+  void _setTab (int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      DashboardScreen(changeTab: _setTab),
+      TimerScreen(),
+      TopicsScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
