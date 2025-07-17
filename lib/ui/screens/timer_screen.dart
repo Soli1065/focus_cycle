@@ -12,18 +12,18 @@ class TimerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final timerService = ref.read(timerServiceProvider);
     final mode = ref.watch(timerModeProvider);
-    final isRunning = ref.watch(timerRunningProvider);
-    final remaining = ref.watch(remainingTimeProvider);
+    final isTimerRunning = ref.watch(timerRunningProvider);
+    final remainingTime = ref.watch(remainingTimeProvider);
     final selectedTopic = ref.watch(selectedTopicProvider);
     final streak = ref.watch(streakProvider);
 
-    final minutes = remaining.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = (remaining.inSeconds.remainder(60)).toString().padLeft(2, '0');
-    final progress = remaining.inSeconds /
+    final minutes = remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = (remainingTime.inSeconds.remainder(60)).toString().padLeft(2, '0');
+    final progress = remainingTime.inSeconds /
         (mode == TimerMode.focus ? 25 * 60 : 5 * 60);
 
-    final timerService = TimerService();
 
     return Scaffold(
       appBar: AppBar(
@@ -92,13 +92,13 @@ class TimerScreen extends ConsumerWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    if (isRunning) {
+                    if (isTimerRunning) {
                       timerService.pause(ref);
                     } else {
                       timerService.start(ref);
                     }
                   },
-                  child: Text(isRunning ? 'Pause' : 'Start'),
+                  child: Text(isTimerRunning ? 'Pause' : 'Start'),
                 ),
                 TextButton(
                   onPressed: () => timerService.reset(ref),

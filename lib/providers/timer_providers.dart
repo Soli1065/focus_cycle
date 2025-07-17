@@ -1,8 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/topic.dart';
+import '../services/timer_service.dart';
 
 enum TimerMode { focus, breakTime }
+
+final timerServiceProvider = Provider<TimerService>((ref) {
+  return TimerService(ref);
+});
 
 final timerModeProvider = StateProvider<TimerMode>((ref) => TimerMode.focus);
 

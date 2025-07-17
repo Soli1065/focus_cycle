@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/timer_providers.dart';
 
 class TimerService {
+  final Ref ref;
   Timer? _timer;
+
+  TimerService(this.ref);
 
   void start(WidgetRef ref) {
     if (_timer != null) return; // already running
