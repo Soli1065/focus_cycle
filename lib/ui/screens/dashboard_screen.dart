@@ -24,40 +24,46 @@ class DashboardScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Greeting & streak
-            Center(
-              child: Column(
-                children: [
-                  Text(
-                    'Good Morning!',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '🔥 $streak-day streak',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ],
+            // 🔥 Streak Card
+            Card(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              elevation: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      '🔥 $streak-day streak',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Keep it up!',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
 
-            // Today’s Reviews Section Title
+            // 📆 Today’s Reviews
             Text(
               "Today's Reviews",
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
 
-            // Today’s Reviews Card
             Card(
               elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: todayReviews.isEmpty
-                    ? const Text(
-                  "✅ You're all caught up!",
-                  textAlign: TextAlign.center,
+                    ? const Center(
+                  child: Text(
+                    "✅ You're all caught up!\nNo reviews due today.",
+                    textAlign: TextAlign.center,
+                  ),
                 )
                     : ListView.separated(
                   shrinkWrap: true,
@@ -73,7 +79,10 @@ class DashboardScreen extends ConsumerWidget {
                       ),
                       trailing: ElevatedButton(
                         onPressed: () {
-                          // TODO: mark as reviewed
+                          ref.read(topicsProvider.notifier).markTopicReviewed(topic.id);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Topic marked as reviewed')),
+                          );
                         },
                         child: const Text('Review'),
                       ),
@@ -85,13 +94,11 @@ class DashboardScreen extends ConsumerWidget {
 
             const SizedBox(height: 32),
 
-            // Quick Start
+            // 🚀 Quick Start
             SizedBox(
               height: 48,
               child: ElevatedButton.icon(
-                onPressed: () {
-                  changeTab(1);
-                },
+                onPressed: () => changeTab(1),
                 icon: const Icon(Icons.timer),
                 label: const Text('Start Focus Cycle'),
               ),
