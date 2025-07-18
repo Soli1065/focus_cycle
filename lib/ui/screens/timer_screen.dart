@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/timer_providers.dart';
-import '../../models/topic.dart';
-import '../../services/timer_service.dart';
+import '../../providers/topic_providers.dart';
 
 class TimerScreen extends ConsumerWidget {
   const TimerScreen({super.key});
@@ -50,6 +49,20 @@ class TimerScreen extends ConsumerWidget {
               ],
             ),
 
+            Card(
+              child: ListTile(
+                title: Text(
+                  selectedTopic?.name ?? 'No topic selected',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                trailing: TextButton(
+                  onPressed: () => _showTopicSelector(context, ref),
+                  child: const Text('Select'),
+                ),
+              ),
+            ),
+
+
             // Timer
             Stack(
               alignment: Alignment.center,
@@ -71,20 +84,20 @@ class TimerScreen extends ConsumerWidget {
             ),
 
             // Topic Card
-            Card(
-              child: ListTile(
-                title: Text(
-                  selectedTopic?.name ?? 'No Topic Selected',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                trailing: TextButton(
-                  onPressed: () {
-                    // TODO: Open topic selector
-                  },
-                  child: const Text('Change'),
-                ),
-              ),
-            ),
+            // Card(
+            //   child: ListTile(
+            //     title: Text(
+            //       selectedTopic?.name ?? 'No Topic Selected',
+            //       style: Theme.of(context).textTheme.titleLarge,
+            //     ),
+            //     trailing: TextButton(
+            //       onPressed: () {
+            //         // TODO: Open topic selector
+            //       },
+            //       child: const Text('Change'),
+            //     ),
+            //   ),
+            // ),
 
             // Controls
             Row(
@@ -114,6 +127,27 @@ class TimerScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showTopicSelector(BuildContext context, WidgetRef ref) {
+    final topics = ref.read(topicsProvider);
+
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => ListView.builder(
+        itemCount: topics.length,
+        itemBuilder: (context, index) {
+          final topic = topics[index];
+          return ListTile(
+            title: Text(topic.name),
+            onTap: () {
+              ref.read(selectedTopicProvider.notifier).state = topic;
+              Navigator.pop(context);
+            },
+          );
+        },
       ),
     );
   }
