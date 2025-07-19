@@ -69,12 +69,19 @@ class TimerScreen extends ConsumerWidget {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  width: 220,
-                  height: 220,
-                  child: CircularProgressIndicator(
-                    value: progress,
-                    strokeWidth: 8,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
+                  width: 320,
+                  height: 320,
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 1.0, end: progress),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOut,
+                    builder: (context, value, _) {
+                      return CircularProgressIndicator(
+                        value: value,
+                        strokeWidth: 8,
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                      );
+                    },
                   ),
                 ),
                 Text(
