@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/topic.dart';
+import '../providers/streak_provider.dart';
 import '../providers/timer_providers.dart';
 import '../providers/topic_providers.dart';
 
@@ -53,7 +54,7 @@ class TimerService {
     }
 
     // Increment streak
-    ref.read(streakProvider.notifier).state++;
+    ref.read(streakProvider.notifier).increment();
 
     // Switch mode and reset timer
     _switchMode();

@@ -14,6 +14,7 @@ void main() async{
   await Hive.initFlutter();
   Hive.registerAdapter(TopicAdapter());
   await Hive.openBox<Topic>('topicsBox');
+  await Hive.openBox('streakBox');
 
 
   runApp(
